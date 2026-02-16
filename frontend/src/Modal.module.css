@@ -1,0 +1,53 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+  background: #bebebe;
+  padding: 2rem;
+  border-radius: 12px;
+  min-width: 320px;
+  text-align: center;
+
+  transform: scale(0.95);
+  animation: popIn 0.2s ease-out forwards;
+}
+
+.modal button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  to { transform: scale(1); }
+}
+
+.message {
+  font-family: 'Pretendard';
+  font-size: 1.2rem;
+}
+
+.button {
+  background-color: #276cbb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: 'Pretendard';
+}
