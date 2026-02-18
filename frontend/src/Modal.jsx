@@ -4,6 +4,7 @@ import style from "./Modal.module.css";
 
 function Modal({ open, message, onClose }) {
   const modalRoot = document.getElementById("modal-root");
+  const lines = message.split("\n");
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -29,8 +30,17 @@ function Modal({ open, message, onClose }) {
         className={style.modal}
         onClick={(e) => e.stopPropagation()} // prevent close when clicking inside
       >
-        <p className={style.message}>{message}</p>
-        <button className={style.button} onClick={onClose}>OK</button>
+        <div className={style.modalTextBox}>
+          {
+            lines.map((line, index) => (
+              <span className={style.message} key={index}>
+                {line}
+                {index !== lines.length - 1 && <br />}
+              </span>
+            ))
+          }
+        </div>
+        <button className={style.button} onClick={onClose}>확인</button>
       </div>
     </div>,
     modalRoot

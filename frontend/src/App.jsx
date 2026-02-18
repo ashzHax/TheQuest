@@ -1,13 +1,12 @@
 import './font/pretendard.css'
 
 import { useState } from 'react';
-import Modal from "./Modal";
-
+import Modal from "./Modal.jsx";
 import style from './App.module.css'
 
 export default function App() {
-  // Example word for hangman blanks
-  const [letters, setLetters] = useState(["", "", "", "", "", "", "", ""]);
+  const [letters, setLetters] = useState(["", "", "H", "", "", "K", "", ""]);
+
   const [input, setInput] = useState("");
   const [modalMessage, setModalMessage] = useState("");
 
@@ -54,30 +53,31 @@ export default function App() {
   };
 
   return (
-    <>
-      <div className={style.main}>
-        <div className={style.word_blanks}>
+      <div className={style.App}>
+
+        <div className={style.wordleBox}>
           {letters.map(letter => (
             <div className={style.blank}>
-              <p className={style.word}>{letter}</p>
+              <p className={style.blankWord}>{letter}</p>
             </div>
           ))}
         </div>
-        <form onSubmit={handleSubmit} className={style.input_form}>
+
+        <form onSubmit={handleSubmit} className={style.inputForm}>
           <input 
-            className={style.input_box} 
+            className={style.inputBox} 
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            type="text" placeholder="🔒 코드 입력" 
+            type="text" placeholder="정답을 입력하세요" 
           />
-          <button className={style.submit_button} type="submit">제출</button>
+          <button className={style.inputSubmitButton} type="submit">제출</button>
         </form>
-          <Modal
-            open={!!modalMessage}
-            message={modalMessage}
-            onClose={() => setModalMessage("")}
-          />
+
+        <Modal
+          open={!!modalMessage}
+          message={modalMessage}
+          onClose={() => setModalMessage("")}
+        />
       </div>
-    </>
-  )
+    )
 }

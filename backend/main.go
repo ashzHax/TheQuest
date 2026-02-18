@@ -40,12 +40,14 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	var resp Response
 
+	log.Printf("Received input: %s", input)
+
 	switch input {
 
 	case "":
 		resp = Response{
 			Action:  "popup",
-			Message: "뭔가를 쓰고 제출 눌러야지? 😏",
+			Message: "뭔가를 쓰고 \"제출\" 버튼을 눌러야 내가 답을 줄수 있지 않을까?\n🙃🙃🙃",
 		}
 
 	case "grace":
@@ -73,7 +75,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	default:
 		resp = Response{
 			Action:  "popup",
-			Message: "틀렸어용~ 🤣🤣🤣🤣🤣 \n[" + req.Text + "]",
+			Message: "제출된 답변 이해 안됨. 😵‍💫\n받은 답변: [" + req.Text + "]",
 		}
 	}
 
@@ -83,6 +85,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/api", handler)
 
-	log.Println("Server running on :8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	// Serve React static files
+	fs := http.FileServer(http.Dir("./dist"))
+	http.Handle("/", fs)
+
+	log.Println("Server running on :42168")
+	log.Fatal(http.ListenAndServe(":42168", nil))
 }
