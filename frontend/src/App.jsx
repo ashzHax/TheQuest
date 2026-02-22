@@ -5,7 +5,7 @@ import Modal from "./Modal.jsx";
 import style from './App.module.css'
 
 export default function App() {
-  const [letters, setLetters] = useState(["", "", "H", "", "", "K", "", ""]);
+  const [letters, setLetters] = useState(["", "", "", "", "", "", "", "", "", ""]);
 
   const [input, setInput] = useState("");
   const [modalMessage, setModalMessage] = useState("");

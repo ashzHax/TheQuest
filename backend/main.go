@@ -49,26 +49,56 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			Action:  "popup",
 			Message: "뭔가를 쓰고 \"제출\" 버튼을 눌러야 내가 답을 줄수 있지 않을까?\n🙃🙃🙃",
 		}
-
-	case "grace":
+	
+	case "163":
 		resp = Response{
 			Action: "fill",
 			Fills: []Fill{
-				{Location: 0, Letter: "G"},
-				{Location: 2, Letter: "A"},
-				{Location: 4, Letter: "E"},
+				{Location: 1, Letter: "A"},
+				{Location: 9, Letter: "H"},
 			},
 		}
 
-	case "faith":
+	case "요한복음13장34절":
 		resp = Response{
 			Action: "fill",
 			Fills: []Fill{
-				{Location: 0, Letter: "F"},
-				{Location: 1, Letter: "A"},
-				{Location: 2, Letter: "I"},
-				{Location: 3, Letter: "T"},
-				{Location: 4, Letter: "H"},
+				{Location: 4, Letter: "E"},
+				{Location: 8, Letter: "A"},
+			},
+		}
+
+	case "77":
+		resp = Response{
+			Action: "fill",
+			Fills: []Fill{
+				{Location: 2, Letter: "L"},
+				{Location: 5, Letter: "L"},
+			},
+		}
+
+	case "1167":
+		resp = Response{
+			Action: "fill",
+			Fills: []Fill{
+				{Location: 6, Letter: "U"},
+			},
+		}
+	
+	case "174":
+		resp = Response{
+			Action: "fill",
+			Fills: []Fill{
+				{Location: 0, Letter: "H"},
+				{Location: 7, Letter: "J"},
+			},
+		}
+
+	case "야고보서1장5절":
+		resp = Response{
+			Action: "fill",
+			Fills: []Fill{
+				{Location: 3, Letter: "L"},
 			},
 		}
 
