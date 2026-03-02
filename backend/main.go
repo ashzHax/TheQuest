@@ -25,88 +25,88 @@ type Response struct {
 func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
+	// check if method is POST
 	if r.Method != http.MethodPost {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 
+	// check if body is JSON
 	var req Request
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
 	}
 
+	// trim data and convert to lowercase
 	input := strings.TrimSpace(strings.ToLower(req.Text))
 
+	// log data with IP address
+	ip := r.Header.Get("X-Forwarded-For")
+	if ip == "" {
+		ip = r.RemoteAddr
+	}
+	log.Printf("[%s] -> [%s]", ip, input)
+
+	// determine response based on input
 	var resp Response
-
-	log.Printf("Received input: %s", input)
-
 	switch input {
-
-	case "":
-		resp = Response{
-			Action:  "popup",
-			Message: "뭔가를 쓰고 \"제출\" 버튼을 눌러야 내가 답을 줄수 있지 않을까?\n🙃🙃🙃",
-		}
-	
-	case "163":
-		resp = Response{
-			Action: "fill",
-			Fills: []Fill{
-				{Location: 1, Letter: "A"},
-				{Location: 9, Letter: "H"},
-			},
-		}
-
-	case "요한복음13장34절":
-		resp = Response{
-			Action: "fill",
-			Fills: []Fill{
-				{Location: 4, Letter: "E"},
-				{Location: 8, Letter: "A"},
-			},
-		}
-
-	case "77":
-		resp = Response{
-			Action: "fill",
-			Fills: []Fill{
-				{Location: 2, Letter: "L"},
-				{Location: 5, Letter: "L"},
-			},
-		}
-
-	case "1167":
-		resp = Response{
-			Action: "fill",
-			Fills: []Fill{
-				{Location: 6, Letter: "U"},
-			},
-		}
-	
-	case "174":
-		resp = Response{
-			Action: "fill",
-			Fills: []Fill{
-				{Location: 0, Letter: "H"},
-				{Location: 7, Letter: "J"},
-			},
-		}
-
-	case "야고보서1장5절":
-		resp = Response{
-			Action: "fill",
-			Fills: []Fill{
-				{Location: 3, Letter: "L"},
-			},
-		}
-
-	default:
-		resp = Response{
-			Action:  "popup",
-			Message: "제출된 답변 이해 안됨. 😵‍💫\n받은 답변: [" + req.Text + "]",
-		}
+		case "":
+			resp = Response{
+				Action:  "popup",
+				Message: "뭔가를 쓰고 \"제출\" 버튼을 눌러야 내가 답을 줄수 있지 않을까?\n🙃🙃🙃",
+			}
+		case "163":
+			resp = Response{
+				Action: "fill",
+				Fills: []Fill{
+					{Location: 1, Letter: "A"},
+					{Location: 9, Letter: "H"},
+				},
+			}
+		case "요한복음13장34절":
+			resp = Response{
+				Action: "fill",
+				Fills: []Fill{
+					{Location: 4, Letter: "E"},
+					{Location: 8, Letter: "A"},
+				},
+			}
+		case "77":
+			resp = Response{
+				Action: "fill",
+				Fills: []Fill{
+					{Location: 2, Letter: "L"},
+					{Location: 5, Letter: "L"},
+				},
+			}
+		case "1167":
+			resp = Response{
+				Action: "fill",
+				Fills: []Fill{
+					{Location: 6, Letter: "U"},
+				},
+			}
+		case "174":
+			resp = Response{
+				Action: "fill",
+				Fills: []Fill{
+					{Location: 0, Letter: "H"},
+					{Location: 7, Letter: "J"},
+				},
+			}
+		case "야고보서1장5절":
+			resp = Response{
+				Action: "fill",
+				Fills: []Fill{
+					{Location: 3, Letter: "L"},
+				},
+			}
+		default:
+			resp = Response{
+				Action:  "popup",
+				Message: "제출된 답변 이해 안됨. 😵‍💫\n받은 답변: [" + req.Text + "]",
+			}
 	}
 
 	json.NewEncoder(w).Encode(resp)
@@ -119,6 +119,6 @@ func main() {
 	fs := http.FileServer(http.Dir("./dist"))
 	http.Handle("/", fs)
 
-	log.Println("Server running on :42168")
+	log.Println("Server running on port [42168]")
 	log.Fatal(http.ListenAndServe(":42168", nil))
 }
